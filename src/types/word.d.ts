@@ -1,5 +1,5 @@
 interface Explain {
-    pro: string;
+    pos: string;
     trans: string;
 }
 interface Word {
