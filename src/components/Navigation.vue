@@ -1,11 +1,15 @@
 <template>
     <div class="container row-between">
         <Hamburger class="only-phone">
-            <RouterLink class="btn" :to="{ name: 'Home' }">背单词</RouterLink>
-            <RouterLink class="btn" :to="{ name: 'Words' }">词表</RouterLink>
-            <RouterLink class="btn" :to="{ name: 'Statistics' }"
-                >数据统计</RouterLink
-            >
+            <RouterLink class="btn" :to="{ name: 'Home' }">{{
+                $t("reciteWord")
+            }}</RouterLink>
+            <RouterLink class="btn" :to="{ name: 'Words' }">{{
+                $t("word")
+            }}</RouterLink>
+            <RouterLink class="btn" :to="{ name: 'Statistics' }">{{
+                $t("StatisticalData")
+            }}</RouterLink>
             <el-switch
                 class="theme-switch"
                 v-model="themeStore.theme"
@@ -14,13 +18,30 @@
                 :active-value="Theme.dark"
                 :inactive-value="Theme.light"
             />
+            <ElDropdown size="large">
+                <TransIcon class="translate" @click="langStore.locale = 'en'" />
+
+                <template #dropdown>
+                    <ElDropdownItem
+                        v-for="locale of langStore.availableLocales"
+                        @click="langStore.locale = locale"
+                        class="lang"
+                    >
+                        {{ $t(locale) }}
+                    </ElDropdownItem>
+                </template>
+            </ElDropdown>
         </Hamburger>
         <div class="only-pc">
-            <RouterLink class="btn" :to="{ name: 'Home' }">背单词</RouterLink>
-            <RouterLink class="btn" :to="{ name: 'Words' }">词表</RouterLink>
-            <RouterLink class="btn" :to="{ name: 'Statistics' }"
-                >数据统计</RouterLink
-            >
+            <RouterLink class="btn" :to="{ name: 'Home' }">{{
+                $t("reciteWord")
+            }}</RouterLink>
+            <RouterLink class="btn" :to="{ name: 'Words' }">{{
+                $t("words")
+            }}</RouterLink>
+            <RouterLink class="btn" :to="{ name: 'Statistics' }">{{
+                $t("StatisticalData")
+            }}</RouterLink>
             <el-switch
                 class="theme-switch"
                 v-model="themeStore.theme"
@@ -29,6 +50,19 @@
                 :active-value="Theme.dark"
                 :inactive-value="Theme.light"
             />
+            <ElDropdown size="large">
+                <TransIcon class="translate" @click="langStore.locale = 'en'" />
+
+                <template #dropdown>
+                    <ElDropdownItem
+                        v-for="locale of langStore.availableLocales"
+                        @click="langStore.locale = locale"
+                        class="lang"
+                    >
+                        {{ $t(locale) }}
+                    </ElDropdownItem>
+                </template>
+            </ElDropdown>
         </div>
         <div>
             <template v-if="tokenStore.token">
@@ -77,11 +111,14 @@ import { useTokenStore } from "../stores/token";
 import { useThemeStore, Theme } from "@/stores/theme";
 import { useUserStore } from "@/stores/user";
 import { Moon, Sunny } from "@element-plus/icons-vue";
+import TransIcon from "@/assets/icons/trans.svg?component";
+import { useLangStore } from "@/stores/lang";
 const route = useRoute();
 const router = useRouter();
 const tokenStore = useTokenStore();
 const themeStore = useThemeStore();
 const userStore = useUserStore();
+const langStore = useLangStore();
 </script>
 <style scoped>
 .container {
@@ -108,5 +145,10 @@ a {
 .theme-switch {
     --el-switch-on-color: var(--background-second-color);
     --el-switch-border-color: none;
+}
+.translate {
+    margin: 10px 20px;
+    width: 25px;
+    fill: var(--text-third-color);
 }
 </style>
